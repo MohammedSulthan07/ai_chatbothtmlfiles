@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athena History</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black-bg: #000;
+            --sidebar-color: #6A5ACD; /* A shade of blue/purple for the sidebar */
+            --text-color: #fff;
+            --light-text: rgba(255, 255, 255, 0.7);
+            --history-button-bg: #1a1a1a;
+            --history-button-border: #6A5ACD; /* Border color for history buttons */
+            --end-conv-bg: #6A5ACD; /* Background for end conversation button */
+            --athena-star-color: #A020F0; /* Purple color for Athena star */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--black-bg);
+            color: var(--text-color);
+            font-family: 'Space Grotesk', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden; /* Prevent body scroll */
+        }
+
+        .container {
+            display: flex;
+            width: 90%; /* Adjust as needed */
+            max-width: 1200px; /* Adjust as needed */
+            height: 90vh; /* Adjust as needed */
+            max-height: 800px; /* Adjust as needed */
+            background-color: var(--black-bg);
+            border-radius: 15px; /* Slight rounding for overall container */
+            overflow: hidden;
+        }
+
+        /* Sidebar Styling (reused from previous designs) */
+        .sidebar {
+            width: 12%; /* Small sidebar width */
+            min-width: 70px;
+            background-color: var(--sidebar-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-radius: 25px 0 0 25px; /* Curved left corners */
+            box-sizing: border-box;
+        }
+
+        .sidebar-top-icon,
+        .sidebar-bottom-icon {
+            font-size: 2.5vw;
+            color: var(--light-text);
+            margin: 10px 0;
+            line-height: 1;
+        }
+        .sidebar-top-icon { margin-top: 0; }
+        .sidebar-bottom-icon { margin-bottom: 0; }
+
+        .username-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5vw;
+            font-weight: 700;
+            color: var(--light-text);
+            gap: 0.5vw;
+            flex-grow: 1;
+        }
+
+        /* Main History Content Area */
+        .history-content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: row; /* Two columns for layout */
+            justify-content: space-between;
+            align-items: flex-start; /* Align items to the top to control spacing with margins */
+            padding: 30px; /* Adjust padding as needed */
+            box-sizing: border-box;
+            background-color: var(--black-bg);
+            position: relative; /* For the bottom-right star positioning */
+        }
+
+        /* ATHENA Title and Subtitle */
+        .athena-title-container {
+            position: absolute; /* Changed to absolute for precise top-left positioning */
+            top: 30px; /* Aligned with the top padding of history-content-area */
+            left: 60px; /* Moved a bit right */
+            display: flex;
+            align-items: center;
+            flex-direction: column; /* Stack title and subtitle */
+            text-align: left; /* Align text to left */
+            transform: none; /* Remove previous transform */
+            z-index: 10; /* Ensure it stays on top */
+            align-items: flex-start; /* Align title and subtitle to the left within its container */
+        }
+        .athena-star-icon {
+            font-size: 2.5vw; /* Slightly smaller star */
+            color: var(--athena-star-color);
+            position: absolute; /* Position relative to .athena-main-title */
+            left: -3.5vw; /* Position to the left of ATHENA text */
+            top: 0; /* Align with top of ATHENA text */
+        }
+        .athena-main-title {
+            font-size: 4vw; /* Adjusted font size for title */
+            font-weight: 700;
+            letter-spacing: 0.2vw;
+            color: var(--text-color);
+            position: relative; /* For star icon positioning */
+            padding-left: 3vw; /* Space for star icon */
+            white-space: nowrap; /* Prevent "ATHENA" from wrapping */
+        }
+        .athena-subtitle {
+            font-size: 1.2vw; /* Slightly smaller subtitle */
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 3px; /* Smaller top margin */
+            margin-left: 3vw; /* Align with the start of ATHENA text */
+        }
+
+        .history-left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Space between history buttons */
+            flex-shrink: 0; /* Prevent shrinking */
+            width: 40%; /* Adjust width for history buttons column */
+            margin-top: 150px; /* Move buttons down significantly */
+            margin-left: 60px; /* Moved a bit right */
+            align-items: flex-start; /* Align buttons to the left */
+        }
+
+        .history-button {
+            background-color: var(--history-button-bg);
+            border: 2px solid var(--history-button-border); /* Border as shown in image */
+            border-radius: 10px;
+            padding: 20px 25px;
+            color: var(--text-color);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2vw; /* Responsive font size */
+            font-weight: 700;
+            text-align: left; /* Ensure text is left-aligned */
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            width: 100%; /* Make buttons take full width of their column */
+            box-sizing: border-box; /* Include padding/border in width */
+        }
+        .history-button:hover {
+            background-color: #3d3d3d;
+            border-color: #8A2BE2; /* A slightly brighter purple on hover */
+        }
+
+        .history-right-column {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+            justify-content: flex-start; /* Align items to the top */
+            padding-bottom: 20px; /* Padding for bottom star */
+            margin-top: 80px; /* Moved significantly up */
+            margin-right: 30px; /* Keep some right margin */
+        }
+
+        .end-conversation-button {
+            background-color: var(--end-conv-bg);
+            border: none;
+            border-radius: 15px;
+            padding: 25px 35px;
+            color: var(--text-color);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2vw;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px; /* Space from image */
+        }
+        .end-conversation-button:hover {
+            background-color: #8A2BE2; /* Brighter purple on hover */
+        }
+        .end-conversation-button .arrow-icon {
+            font-size: 3vw;
+            display: block; /* Make it a block to stack text below */
+            margin-bottom: 5px;
+        }
+
+        .character-image-container {
+            width: 50%; /* Make image smaller */
+            max-width: 250px; /* Smaller max width */
+            aspect-ratio: 1 / 1; /* Maintain aspect ratio */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .character-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensure image fits */
+        }
+
+        .bottom-right-star {
+            font-size: 2.5vw;
+            color: var(--athena-star-color);
+            position: absolute; /* Position absolutely within history-content-area */
+            bottom: 30px; /* From bottom padding */
+            right: 30px; /* From right padding */
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .sidebar { width: 15%; min-width: 80px; }
+            .sidebar-top-icon, .sidebar-bottom-icon { font-size: 3vw; }
+            .username-text { font-size: 3vw; gap: 0.7vw; }
+
+            .athena-title-container { top: 20px; left: 40px; }
+            .athena-main-title { font-size: 5vw; padding-left: 4vw; }
+            .athena-star-icon { font-size: 3.5vw; left: -4vw; top: 0.5vw; }
+            .athena-subtitle { font-size: 1.5vw; margin-left: 4vw; }
+
+            .history-left-column { margin-top: 120px; width: 45%; margin-left: 40px; }
+            .history-button { font-size: 2.5vw; padding: 15px 20px; }
+            .history-right-column { margin-top: 60px; /* Adjusted */ margin-right: 20px; }
+            .end-conversation-button { font-size: 2.8vw; padding: 20px 30px; }
+            .end-conversation-button .arrow-icon { font-size: 4vw; }
+            .character-image-container { width: 60%; max-width: 300px; }
+            .bottom-right-star { font-size: 3vw; bottom: 20px; right: 20px; }
+        }
+
+        @media (max-width: 768px) {
+            .container { flex-direction: column; height: 100vh; width: 100%; border-radius: 0; }
+            .sidebar { width: 100%; height: 80px; min-width: unset; order: -1; flex-direction: row; justify-content: space-around; padding: 0 20px; border-radius: 0 0 25px 25px; }
+            .sidebar-top-icon, .sidebar-bottom-icon { font-size: 5vw; margin: 0; }
+            .username-text { flex-direction: row; font-size: 4.5vw; gap: 1.5vw; flex-grow: 0; margin: 0 20px; }
+
+            .history-content-area {
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 20px;
+                padding: 15px;
+            }
+            .athena-title-container {
+                position: relative;
+                top: auto; left: auto; transform: none;
+                margin-bottom: 15px;
+                text-align: center;
+                align-items: center;
+            }
+            .athena-main-title { font-size: 7vw; padding-left: 0; }
+            .athena-star-icon { position: relative; left: auto; top: auto; font-size: 4vw; margin-right: 10px; }
+            .athena-subtitle { font-size: 2.5vw; margin-left: 0; }
+
+
+            .history-left-column {
+                width: 90%;
+                order: 2;
+                margin-top: 0;
+                margin-left: 0;
+                align-items: center;
+            }
+            .history-button {
+                font-size: 3.5vw;
+                padding: 12px 18px;
+                text-align: center;
+                width: 80%;
+            }
+            .history-right-column {
+                width: 90%;
+                flex-grow: 0;
+                height: auto;
+                order: 3;
+                align-items: center;
+                margin-top: 0;
+                margin-right: 0;
+            }
+            .end-conversation-button {
+                font-size: 4vw;
+                padding: 15px 25px;
+                margin-bottom: 15px;
+                margin-top: 15px;
+            }
+            .end-conversation-button .arrow-icon { font-size: 5vw; }
+            .character-image-container {
+                width: 60%;
+                max-width: 200px;
+                margin-top: 10px;
+            }
+            .bottom-right-star {
+                font-size: 4vw;
+                align-self: center;
+                margin-top: 15px;
+                position: relative;
+                bottom: auto; right: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar-top-icon, .sidebar-bottom-icon { font-size: 6vw; }
+            .username-text { font-size: 5vw; gap: 1.8vw; }
+            .history-button { font-size: 4.5vw; }
+            .end-conversation-button { font-size: 5vw; }
+            .end-conversation-button .arrow-icon { font-size: 6vw; }
+            .athena-main-title { font-size: 9vw; }
+            .athena-star-icon { font-size: 5vw; }
+            .athena-subtitle { font-size: 3.5vw; }
+            .bottom-right-star { font-size: 5vw; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-top-icon">@</div>
+            <div class="username-text">
+                <span>U</span>
+                <span>S</span>
+                <span>E</span>
+                <span>R</span>
+                <span>N</span>
+                <span>A</span>
+                <span>M</span>
+                <span>E</span>
+            </div>
+            <div class="sidebar-bottom-icon">↻</div>
+        </div>
+
+        <div class="history-content-area">
+            <div class="athena-title-container">
+                <div class="athena-main-title">
+                    <span class="athena-star-icon">✦</span>ATHENA
+                </div>
+                <div class="athena-subtitle">THE GODDESS OF KNOWLEDGE</div>
+            </div>
+
+            <div class="history-left-column">
+                <button class="history-button">HISTORY 1</button>
+                <button class="history-button">HISTORY 2</button>
+                <button class="history-button">HISTORY 3</button>
+            </div>
+
+            <div class="history-right-column">
+                <button class="end-conversation-button" onclick="location.href='index.html'">
+                    <span class="arrow-icon">&laquo;</span><br>END<br>CONVERSATION
+                </button>
+                <div class="character-image-container">
+                    <img src="static/athena_goddess_text.png" alt="Athena Goddess Image" class="character-image">
+                </div>
+            </div>
+            <span class="bottom-right-star">✦</span>
+        </div>
+    </div>
+</body>
+</html>

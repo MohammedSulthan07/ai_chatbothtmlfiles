@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athena Chatbot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black-bg: #000;
+            --sidebar-color: #6A5ACD;
+            --bot-bubble-color: #6A5ACD;
+            --user-bubble-color: #fff;
+            --input-bg: #333;
+            --text-color: #fff;
+            --light-text: rgba(255, 255, 255, 0.7);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--black-bg);
+            color: var(--text-color);
+            font-family: 'Space Grotesk', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            height: 90vh;
+            max-height: 800px;
+            background-color: var(--black-bg);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 12%;
+            min-width: 70px;
+            background-color: var(--sidebar-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-radius: 25px 0 0 25px;
+            box-sizing: border-box;
+        }
+
+        .sidebar-top-icon,
+        .sidebar-bottom-icon {
+            font-size: 2.5vw;
+            color: var(--light-text);
+            margin: 10px 0;
+            line-height: 1;
+            cursor: pointer; /* Added cursor for clickability */
+        }
+        .sidebar-top-icon { margin-top: 0; }
+        .sidebar-bottom-icon { margin-bottom: 0; }
+
+        .username-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5vw;
+            font-weight: 700;
+            color: var(--light-text);
+            gap: 0.5vw;
+            flex-grow: 1;
+            /* Removed cursor and onclick here */
+        }
+
+        /* Main Chat Area Styling */
+        .chat-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: var(--black-bg);
+        }
+
+        .messages-display {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Message Bubbles */
+        .message-bubble {
+            padding: 15px 20px;
+            border-radius: 15px;
+            max-width: 70%;
+            word-wrap: break-word;
+            font-size: 1.2vw;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .bot-message {
+            background-color: var(--bot-bubble-color);
+            color: var(--text-color);
+            align-self: flex-start;
+        }
+
+        .user-message {
+            background-color: var(--user-bubble-color);
+            color: var(--black-bg);
+            align-self: flex-end;
+        }
+
+        /* Input Field Styling */
+        .input-container {
+            display: flex;
+            align-items: center;
+            background-color: var(--input-bg);
+            border-radius: 30px;
+            padding: 10px 25px;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            border: none;
+            background: none;
+            color: var(--text-color);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2vw;
+            padding: 5px 10px;
+            outline: none;
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .send-icon {
+            font-size: 2vw;
+            color: var(--light-text);
+            margin-left: 15px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .send-icon:hover {
+            color: var(--text-color);
+        }
+
+        /* Scrollbar Styling (Webkit - Chrome, Safari) */
+        .messages-display::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .messages-display::-webkit-scrollbar-track {
+            background: #222;
+            border-radius: 10px;
+        }
+
+        .messages-display::-webkit-scrollbar-thumb {
+            background: var(--sidebar-color);
+            border-radius: 10px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .sidebar { width: 15%; min-width: 80px; }
+            .sidebar-top-icon, .sidebar-bottom-icon { font-size: 3vw; }
+            .username-text { font-size: 3vw; gap: 0.7vw; }
+            .message-bubble { font-size: 1.5vw; }
+            .chat-input { font-size: 1.5vw; }
+            .send-icon { font-size: 2.5vw; }
+        }
+
+        @media (max-width: 768px) {
+            .container { flex-direction: column; height: 100vh; width: 100%; border-radius: 0; }
+            .sidebar { width: 100%; height: 80px; min-width: unset; order: -1; flex-direction: row; justify-content: space-around; padding: 0 20px; border-radius: 0 0 25px 25px; }
+            .sidebar-top-icon, .sidebar-bottom-icon { font-size: 5vw; margin: 0; }
+            .username-text { flex-direction: row; font-size: 4.5vw; gap: 1.5vw; flex-grow: 0; margin: 0 20px; }
+            .chat-area { padding: 15px; flex-grow: 1; }
+            .message-bubble { font-size: 2.5vw; max-width: 85%; }
+            .input-container { padding: 8px 20px; }
+            .chat-input { font-size: 3vw; }
+            .send-icon { font-size: 4vw; }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar-top-icon, .sidebar-bottom-icon { font-size: 6vw; }
+            .username-text { font-size: 5vw; gap: 1.8vw; }
+            .message-bubble { font-size: 3.5vw; }
+            .chat-input { font-size: 4vw; }
+            .send-icon { font-size: 5vw; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-top-icon">@</div>
+            <div class="username-text"> <span>U</span>
+                <span>S</span>
+                <span>E</span>
+                <span>R</span>
+                <span>N</span>
+                <span>A</span>
+                <span>M</span>
+                <span>E</span>
+            </div>
+            <div class="sidebar-bottom-icon" onclick="location.href='history.html'"> ↻
+            </div>
+        </div>
+
+        <div class="chat-area">
+            <div class="messages-display" id="messagesDisplay">
+                <div class="message-bubble bot-message">
+                    YOU HAVE CHOSEN WISDOM, WHAT<br>DO YOU NEED MY HELP WITH?
+                </div>
+                <div class="message-bubble user-message">
+                    HELLO
+                </div>
+            </div>
+
+            <div class="input-container">
+                <input type="text" id="chatInput" class="chat-input" placeholder="TYPE HERE.......">
+                <span class="send-icon" id="sendIcon">✦</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatInput = document.getElementById('chatInput');
+        const sendIcon = document.getElementById('sendIcon');
+        const messagesDisplay = document.getElementById('messagesDisplay');
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message-bubble');
+            messageDiv.classList.add(sender + '-message');
+            messageDiv.innerHTML = text;
+
+            messagesDisplay.appendChild(messageDiv);
+            messagesDisplay.scrollTop = messagesDisplay.scrollHeight;
+        }
+
+        function sendUserMessage() {
+            const userMessage = chatInput.value.trim();
+            if (userMessage !== '') {
+                addMessage(userMessage, 'user');
+                chatInput.value = '';
+                setTimeout(() => {
+                    addMessage('athena reply', 'bot');
+                }, 500);
+            }
+        }
+
+        chatInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendUserMessage();
+            }
+        });
+
+        sendIcon.addEventListener('click', sendUserMessage);
+    </script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athena Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black-bg: #000;
+            --sidebar-color: #6A5ACD;
+            --text-color: #fff;
+            --light-text: rgba(255, 255, 255, 0.7);
+            --button-bg: #6A5ACD;
+            --athena-star-color: #A020F0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--black-bg);
+            color: var(--text-color);
+            font-family: 'Space Grotesk', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            height: 90vh;
+            max-height: 800px;
+            background-color: var(--black-bg);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 12%;
+            min-width: 70px;
+            background-color: var(--sidebar-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-radius: 25px 0 0 25px;
+            box-sizing: border-box;
+        }
+
+        .sidebar-top-icon,
+        .sidebar-bottom-icon {
+            font-size: 2.5vw;
+            color: var(--light-text);
+            margin: 10px 0;
+            line-height: 1;
+        }
+        .sidebar-top-icon { margin-top: 0; }
+        .sidebar-bottom-icon { margin-bottom: 0; }
+
+        .username-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5vw;
+            font-weight: 700;
+            color: var(--light-text);
+            gap: 0.5vw;
+            flex-grow: 1;
+        }
+
+        /* Main Content Area */
+        .main-content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column; /* Changed to column to stack title above interactive area */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            padding: 30px;
+            box-sizing: border-box;
+            background-color: var(--black-bg);
+            position: relative; /* For Athena title positioning */
+        }
+
+        .athena-title-container {
+            position: absolute;
+            top: 30px;
+            left: 60px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            text-align: left;
+            align-items: flex-start;
+            z-index: 10;
+        }
+        .athena-star-icon {
+            font-size: 2.5vw;
+            color: var(--athena-star-color);
+            position: absolute;
+            left: -3.5vw;
+            top: 0;
+        }
+        .athena-main-title {
+            font-size: 4vw;
+            font-weight: 700;
+            letter-spacing: 0.2vw;
+            color: var(--text-color);
+            position: relative;
+            padding-left: 3vw;
+            white-space: nowrap;
+        }
+        .athena-subtitle {
+            font-size: 1.2vw;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 3px;
+            margin-left: 3vw;
+        }
+
+        /* New container for image and buttons */
+        .main-interactive-area {
+            display: flex;
+            align-items: center; /* Align image and buttons vertically */
+            justify-content: center; /* Center this block horizontally */
+            gap: 50px; /* Space between image and buttons */
+            margin-top: 80px; /* Adjust this to move the whole block down from title */
+        }
+
+        .character-image-container {
+            width: 30%;
+            max-width: 300px;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Removed negative margins */
+        }
+        .character-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            /* Removed negative margins */
+        }
+
+        .action-button {
+            background-color: var(--button-bg);
+            border: none;
+            border-radius: 15px;
+            padding: 20px 30px;
+            color: var(--text-color);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8vw;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .action-button:hover {
+            background-color: #8A2BE2;
+        }
+
+        .button-text-small {
+            font-size: 0.8em;
+            color: var(--light-text);
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+        .button-icon {
+            font-size: 1.5em;
+            margin-left: 20px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .sidebar { width: 15%; min-width: 80px; }
+            .sidebar-top-icon, .sidebar-bottom-icon { font-size: 3vw; }
+            .username-text { font-size: 3vw; gap: 0.7vw; }
+
+            .athena-title-container { top: 20px; left: 40px; }
+            .athena-main-title { font-size: 5vw; padding-left: 4vw; }
+            .athena-star-icon { font-size: 3.5vw; left: -4vw; top: 0.5vw; }
+            .athena-subtitle { font-size: 1.5vw; margin-left: 4vw; }
+
+            .main-interactive-area {
+                gap: 30px;
+                margin-top: 60px;
+            }
+            .character-image-container { width: 40%; max-width: 250px; }
+            .action-button { font-size: 2.2vw; padding: 15px 25px; }
+            .button-text-small { font-size: 0.9em; }
+            .button-icon { font-size: 1.8em; }
+        }
+
+        @media (max-width: 768px) {
+            .container { flex-direction: column; height: 100vh; width: 100%; border-radius: 0; }
+            .sidebar { width: 100%; height: 80px; min-width: unset; order: -1; flex-direction: row; justify-content: space-around; padding: 0 20px; border-radius: 0 0 25px 25px; }
+            .sidebar-top-icon, .sidebar-bottom-icon { font-size: 5vw; margin: 0; }
+            .username-text { flex-direction: row; font-size: 4.5vw; gap: 1.5vw; flex-grow: 0; margin: 0 20px; }
+
+            .main-content-area { justify-content: flex-start; align-items: center; padding: 15px; }
+            .athena-title-container { position: relative; top: auto; left: auto; transform: none; margin-bottom: 15px; text-align: center; align-items: center; }
+            .athena-main-title { font-size: 7vw; padding-left: 0; }
+            .athena-star-icon { position: relative; left: auto; top: auto; font-size: 4vw; margin-right: 10px; }
+            .athena-subtitle { font-size: 2.5vw; margin-left: 0; }
+
+            .main-interactive-area {
+                flex-direction: column; /* Stack image and buttons vertically on mobile */
+                gap: 20px;
+                margin-top: 10px; /* Reduced margin */
+                width: 90%; /* Take more width */
+            }
+            .character-image-container { width: 50%; max-width: 200px; }
+            .buttons-container { width: 100%; /* Buttons take full width of interactive area */ }
+            .action-button { font-size: 3.5vw; padding: 12px 18px; text-align: center; justify-content: center; }
+            .button-text-small { display: block; margin-top: 5px; margin-left: 0; }
+            .button-icon { margin-left: 10px; font-size: 2em; }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar-top-icon, .sidebar-bottom-icon { font-size: 6vw; }
+            .username-text { font-size: 5vw; gap: 1.8vw; }
+            .action-button { font-size: 4.5vw; }
+            .button-text-small { font-size: 0.9em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-top-icon">@</div>
+            <div class="username-text">
+                <span>U</span>
+                <span>S</span>
+                <span>E</span>
+                <span>R</span>
+                <span>N</span>
+                <span>A</span>
+                <span>M</span>
+                <span>E</span>
+            </div>
+            <div class="sidebar-bottom-icon">↻</div>
+        </div>
+
+        <div class="main-content-area">
+            <div class="athena-title-container">
+                <div class="athena-main-title">
+                    <span class="athena-star-icon">✦</span>ATHENA
+                </div>
+                <div class="athena-subtitle">THE GODDESS OF KNOWLEDGE</div>
+            </div>
+
+            <div class="main-interactive-area">
+                <div class="character-image-container">
+                    <img src="static/athena_goddess_text.png" alt="Athena Goddess Image" class="character-image">
+                </div>
+
+                <div class="buttons-container">
+                    <button class="action-button" onclick="location.href='chat.html'">
+                        CHAT <span class="button-text-small">(WANT MY WISDOM?)</span> <span class="button-icon">💬</span>
+                    </button>
+                    <button class="action-button" onclick="location.href='error.html'">
+                        SPEAK <span class="button-text-small">(SPEAK WITH ATHENA)</span> <span class="button-icon">🎧</span>
+                    </button>
+                    <button class="action-button" onclick="location.href='error.html'">
+                        CAMERA <span class="button-text-small">(REVEAL THE UNSEEN)</span> <span class="button-icon">📸</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

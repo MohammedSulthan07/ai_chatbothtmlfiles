@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Feature Under Development</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black-bg: #000;
+            --button-bg: #6A5ACD;
+            --text-color: #fff;
+            --light-text: rgba(255, 255, 255, 0.7);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--black-bg);
+            color: var(--text-color);
+            font-family: 'Space Grotesk', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 80%;
+            max-width: 600px;
+            padding: 40px;
+            background-color: var(--button-bg); /* Using a similar purple for the error box */
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .error-title {
+            font-size: 4vw; /* Responsive font size */
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        .error-message {
+            font-size: 2vw; /* Responsive font size */
+            color: var(--light-text);
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .home-button {
+            background-color: var(--black-bg); /* Dark button on purple background */
+            border: none;
+            border-radius: 15px;
+            padding: 20px 40px;
+            color: var(--text-color);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2vw; /* Responsive font size */
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #333;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .error-title { font-size: 6vw; }
+            .error-message { font-size: 3vw; }
+            .home-button { font-size: 3vw; padding: 15px 30px; }
+        }
+
+        @media (max-width: 768px) {
+            .error-container { width: 90%; padding: 30px; border-radius: 15px; }
+            .error-title { font-size: 8vw; margin-bottom: 15px; }
+            .error-message { font-size: 4vw; margin-bottom: 30px; }
+            .home-button { font-size: 4.5vw; padding: 12px 25px; }
+        }
+
+        @media (max-width: 480px) {
+            .error-container { padding: 20px; }
+            .error-title { font-size: 10vw; }
+            .error-message { font-size: 5vw; }
+            .home-button { font-size: 6vw; }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-title">OOPS!</div>
+        <div class="error-message">FEATURE UNDER DEVELOPEMENT</div>
+        <button class="home-button" onclick="location.href='index.html'">
+            &laquo; GO TO HOMEPAGE
+        </button>
+    </div>
+</body>
+</html>
